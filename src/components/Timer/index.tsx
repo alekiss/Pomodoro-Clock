@@ -7,6 +7,8 @@ import { FiPlay, FiPause } from "react-icons/fi";
 import SettingsContext from "../../context/SettingsContex";
 
 const Timer = () => {
+  const settingsInfo = useContext(SettingsContext);
+
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState("work"); //work,break,null
   const [secondsLeft, setSecondsLeft] = useState(0);
@@ -15,22 +17,8 @@ const Timer = () => {
   const modeRef = useRef(mode);
   const secondsLeftRef = useRef(secondsLeft);
 
-  const settingsInfo = useContext(SettingsContext);
-
   const initTimer = () => {
     setSecondsLeft(settingsInfo.workMinutes * 60);
-  };
-
-  const switchMode = () => {
-    const nextMode = modeRef.current === "work" ? "break" : "work";
-    const nextSeconds =
-      (nextMode === "work"
-        ? settingsInfo.workMinutes
-        : settingsInfo.breakMinutes) * 60;
-    modeRef.current = nextMode;
-    setMode(nextMode);
-    secondsLeftRef.current = nextSeconds;
-    setSecondsLeft(nextSeconds);
   };
 
   const tick = () => {
@@ -40,6 +28,20 @@ const Timer = () => {
 
   useEffect(() => {
     initTimer();
+
+    const switchMode = () => {
+      const nextMode = modeRef.current === "work" ? "break" : "work";
+      const nextSeconds =
+        (nextMode === "work"
+          ? settingsInfo.workMinutes
+          : settingsInfo.breakMinutes) * 60;
+
+      setMode(nextMode);
+      modeRef.current = nextMode;
+
+      setSecondsLeft(nextSeconds);
+      secondsLeftRef.current = nextSeconds;
+    };
 
     const interval = setInterval(() => {
       if (isPausedRef.current) {
@@ -64,13 +66,13 @@ const Timer = () => {
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
 
-  // if (seconds < 10) seconds = "0" + seconds;
+  //if (seconds < 10) seconds = "0" + seconds;
 
   return (
     <>
       <CircularProgressbar
         value={percentage}
-        text={minutes + ":" + seconds}
+        text={minutes + ":" + seconds.toString().padStart(2, '0')}
         styles={buildStyles({
           textColor: "#fff",
           pathColor: mode === "work" ? "#f54e4e" : "#4aec8c",
@@ -99,7 +101,7 @@ const Timer = () => {
         )}
 
         <SettingsButton
-          onClick={() => settingsInfo.handlerButton((prev: boolean) => !prev)}
+          onClick={() => settingsInfo.handlerButton()}
         >
           <HiOutlineCog />
           Settings

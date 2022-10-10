@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Settings from "../../components/Settings";
 import Timer from "../../components/Timer";
-import SettingsContex, { SettingsProvider } from "../../context/SettingsContex";
+import SettingsContex from "../../context/SettingsContex";
 import { Container } from "./styles";
 
 const Home: React.FC = () => {
@@ -10,11 +10,9 @@ const Home: React.FC = () => {
 
   return (
     <main>
-      <SettingsProvider>
         <Container>
           {showSettings ? <Settings /> : <Timer/>}
         </Container>
-      </SettingsProvider>
     </main>
   );
 };

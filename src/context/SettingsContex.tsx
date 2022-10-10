@@ -11,13 +11,13 @@ type SettingsContextType = {
   setBreakMinutes: (newState: number) => void;
   showSettings: boolean;
   setShowSettings: (newState: boolean) => void;
-  handlerButton: React.Dispatch<React.SetStateAction<boolean>>
+  handlerButton: () => void;
 };
 
 const initialValues = {
-  workMinutes: 1,
+  workMinutes: 25,
   setWorkMinutes: () => {},
-  breakMinutes: 1,
+  breakMinutes: 5,
   setBreakMinutes: () => {},
   showSettings: false,
   setShowSettings: () => {},

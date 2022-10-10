@@ -37,7 +37,7 @@ const Settings = () => {
         max={30}
       />
       <ContentButton>
-        <ButtonBack onClick={() => handlerButton}>
+        <ButtonBack onClick={() => handlerButton()}>
           <MdOutlineArrowBackIosNew />
           Back
         </ButtonBack>
